@@ -1,4 +1,4 @@
-# Linux Server Hardening – Task 4  
+# Linux Server Hardening  
 
 ## Objective  
 The goal of this task was to secure a Linux Ubuntu server by applying system hardening techniques. The focus areas included:  
