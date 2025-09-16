@@ -1,43 +1,74 @@
-# Linux Server Hardening – Internship Task 4
+# Linux Server Hardening – Task 4  
 
-## Objective
-Secure a Linux Ubuntu server by applying system hardening techniques including firewall configuration, SSH hardening, and fail2ban.
+## Objective  
+The goal of this task was to secure a Linux Ubuntu server by applying system hardening techniques. The focus areas included:  
+- Configuring and enforcing firewall rules  
+- Hardening SSH access  
+- Enabling brute-force attack protection with Fail2ban  
 
-## Before Hardening
-- Open ports, firewall status, SSH config, and fail2ban status were captured.
-- Screenshots are in `before_screenshots/`:
+---
 
-  - `ports_before.png`
-  - `ufw_before.png`
-  - `ssh_config_before.png`
-  - `fail2ban_before.png`
+## System Overview (Before Hardening)  
+The server was initially in a default state with minimal security configurations:  
+- Multiple open ports  
+- Default SSH settings (root login and password authentication enabled)  
+- No brute-force protection in place  
 
-## Hardening Steps
-1. Configured UFW firewall:
-   - Blocked all incoming connections
-   - Allowed all outgoing connections
-   - Allowed SSH only
-2. Secured SSH server:
-   - Disabled root login
-   - Disabled password authentication
-   - Allowed only user `student`
-3. Installed and enabled fail2ban for brute-force attack protection.
-4. Verified open ports and service status.
+📂 Screenshots are stored in `before_screenshots/`:  
+- `ports_before.png` – List of open ports  
+- `ufw_before.png` – Firewall status (inactive)  
+- `ssh_config_before.png` – Default SSH configuration  
+- `fail2ban_before.png` – Fail2ban not installed/running  
 
-## After Hardening
-- Screenshots are in `after_screenshots/`:
+---
 
-  - `ports_after.png`
-  - `ufw_after.png`
-  - `ssh_config_after.png`
-  - `fail2ban_after.png`
+## Hardening Steps  
 
-- Only necessary ports are open.
-- SSH is secure.
-- Fail2ban is running.
+### 1. Firewall (UFW)  
+- Installed and configured **UFW (Uncomplicated Firewall)**  
+- Rules applied:  
+  - Block all incoming connections  
+  - Allow all outgoing connections  
+  - Allow **SSH only** (port 22)  
 
-## Commands Used
-See `commands.txt` for a complete list of all commands run during the task.
+### 2. SSH Hardening  
+- Edited `/etc/ssh/sshd_config` to improve security:  
+  - Disabled **root login**  
+  - Disabled **password authentication** (enforcing key-based login)  
+  - Allowed only the user **student** to log in  
 
-## Notes
-- tcpdump/PCAP capture skipped due to VM network limitations; all other hardening steps are completed.
+### 3. Fail2ban  
+- Installed and enabled **Fail2ban**  
+- Configured to monitor SSH login attempts  
+- Protects against brute-force attacks  
+
+### 4. Verification  
+- Confirmed only essential ports are open  
+- Validated firewall rules are active  
+- Ensured SSH login is secure  
+- Verified Fail2ban is running  
+
+---
+
+## System State (After Hardening)  
+The server is now in a hardened state:  
+- Only **SSH port** open and secured  
+- Firewall properly configured  
+- Fail2ban actively protecting the system  
+
+📂 Screenshots are stored in `after_screenshots/`:  
+- `ports_after.png` – List of open ports after hardening  
+- `ufw_after.png` – Firewall rules applied  
+- `ssh_config_after.png` – Hardened SSH configuration  
+- `fail2ban_after.png` – Fail2ban service running  
+
+---
+
+## Commands Used  
+A complete list of commands executed during this task is available in **[commands.txt](./commands.txt)**.  
+
+---
+
+## Notes  
+- **tcpdump/PCAP capture** was skipped due to VirtualBox networking limitations.  
+- All other hardening steps were fully implemented and verified.  
