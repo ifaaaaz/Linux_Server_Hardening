@@ -1,0 +1,47 @@
+# Update and upgrade system
+sudo apt update && sudo apt upgrade -y
+
+# Check current user and privileges
+whoami > before_user.txt
+id >> before_user.txt
+
+# List installed packages relevant to the task
+dpkg -l | egrep 'ufw|fail2ban|openssh-server' || true
+
+# Check open ports (before hardening)
+ss -tuln
+
+# Check UFW status (before hardening)
+sudo ufw status verbose || echo "UFW not active"
+
+# Check SSH server configuration (before hardening)
+grep -E 'PermitRootLogin|PasswordAuthentication|AllowUsers|Port' /etc/ssh/sshd_config -n || true
+
+# Check fail2ban status (before hardening)
+sudo systemctl status fail2ban || echo "fail2ban not installed"
+
+# Configure UFW firewall
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow ssh
+sudo ufw enable
+sudo ufw status verbose
+
+# Secure SSH server
+# (These lines are manually added in /etc/ssh/sshd_config)
+# PermitRootLogin no
+# PasswordAuthentication no
+# AllowUsers student
+# Port 22
+
+# Restart SSH to apply changes
+sudo systemctl restart ssh
+
+# Install and enable fail2ban
+sudo apt install -y fail2ban
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+sudo systemctl status fail2ban
+
+# Check open ports after hardening
+ss -tuln
